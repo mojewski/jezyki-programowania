@@ -21,14 +21,14 @@ public class Exercise5 {
 
         System.out.println("Lista przed sortowaniem:");
         for(Person p : people) {
-            System.out.println(p);
+            System.out.println(p.getName() + " " + p.getAge());
         }
 
         people.sort(Comparator.comparingInt(Person::getAge));
 
         System.out.println("\nLista posortowana komparatorem:");
         for(Person p : people) {
-            System.out.println(p);
+            System.out.println(p.getName() + " " + p.getAge());
         }
     }
 }

@@ -12,12 +12,12 @@ public class Exercise7 {
         Book b3 = new Book("Hobbit", "J.R.R. Tolkien", "978-83-246-7763-0");
         Book b1Duplicate = new Book("Wiedźmin+", "Andrzej Sapkowski", "978-83-246-7761-0");
 
-        System.out.println("==== Zadanie 4: Testowanie HashSet dla klasy Book\n");
+        System.out.println("==== Zadanie 7: Testowanie HashSet dla klasy Book\n");
 
-        books.add(b1);
-        books.add(b2);
-        books.add(b3);
-        books.add(b1Duplicate);
+        System.out.println("Dodaję książkę : 978-83-246-7761-0 " + books.add(b1));
+        System.out.println("Dodaję książkę : 978-83-246-7762-0 " + books.add(b2));
+        System.out.println("Dodaję książkę : 978-83-246-7763-0 " + books.add(b3));
+        System.out.println("Dodaję książkę : 978-83-246-7761-0 " + books.add(b1Duplicate));
 
         System.out.println("\nLiczba książek w zbiorze: " + books.size());
     }
