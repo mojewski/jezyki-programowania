@@ -15,9 +15,14 @@ public class Exercise9 {
 
         System.out.println("==== Zadanie 9: Niestandardowy klucz w Mapie\n");
 
+        System.out.println("Lokatorzy:");
+        for(var r : residents.entrySet()) {
+            System.out.println(r.getKey().getStreet() + " " + r.getKey().getHouseNumber() + " " + r.getValue());
+        }
+
         Address searchAddress = new Address("Świdnicka", 12);
 
-        System.out.println("Szukany adres: " + searchAddress);
+        System.out.println("\nSzukany adres: " + searchAddress);
 
         String resident = residents.get(searchAddress);
 

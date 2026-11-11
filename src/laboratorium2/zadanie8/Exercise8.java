@@ -18,13 +18,13 @@ public class Exercise8 {
         System.out.println("\nSortowanie Comparable po cenie:");
         Collections.sort(products);
         for(Product p : products) {
-            System.out.println(p);
+            System.out.println(p.getName() + " " + p.getPrice());
         }
 
         System.out.println("\nSortowanie własnym komparatorem po nazwie:");
         products.sort(Comparator.comparing(Product::getName));
         for(Product p : products) {
-            System.out.println(p);
+            System.out.println(p.getName() + " " + p.getPrice());
         }
     }
 }
