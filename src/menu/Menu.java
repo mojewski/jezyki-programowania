@@ -9,7 +9,9 @@ import laboratorium2.zadanie5.Exercise5;
 import laboratorium2.zadanie7.Exercise7;
 import laboratorium2.zadanie8.Exercise8;
 import laboratorium2.zadanie9.Exercise9;
+import laboratorium3.Exercise13;
 
+import javax.swing.*;
 import java.util.Scanner;
 
 public class Menu {
@@ -22,7 +24,12 @@ public class Menu {
         MenuItem lab2 = new MenuItem("Laboratorium 2");
         addLab2(lab2, scanner);
 
+        MenuItem lab3 = new MenuItem("Laboratorium 3");
+
         mainMenu.addSubItem(lab2);
+        mainMenu.addSubItem(new MenuItem("Laboratorium 3", () ->
+                SwingUtilities.invokeLater(() -> new Exercise13().setVisible(true))
+        ));
 
         mainMenu.runOption(scanner);
     }
