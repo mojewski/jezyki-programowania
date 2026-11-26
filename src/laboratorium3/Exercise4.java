@@ -76,9 +76,7 @@ public class Exercise4 extends JFrame {
                 startNewNumber = true;
             }
             return;
-        }
-
-        if (text.equals(".")) {
+        }      if (text.equals(".")) {
             if (startNewNumber) {
                 display.setText("0.");
                 startNewNumber = false;

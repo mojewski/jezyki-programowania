@@ -35,8 +35,8 @@ public class Exercise2 extends JFrame {
         JButton resetBtn = new JButton("Reset");
 
         controlPanel.add(colorBtn);
-        controlPanel.add(moveRightBtn);
         controlPanel.add(moveLeftBtn);
+        controlPanel.add(moveRightBtn);
         controlPanel.add(moveUpBtn);
         controlPanel.add(moveDownBtn);
         controlPanel.add(biggerBtn);

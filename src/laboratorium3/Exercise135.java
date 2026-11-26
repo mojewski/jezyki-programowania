@@ -7,9 +7,15 @@ import java.awt.*;
 
 public class Exercise135 extends JFrame {
 
+    private JTextField loginField;
+    private JPasswordField passwordField;
+    private JProgressBar strengthBar;
+    private JTextArea resultArea;
+    private JLabel welcomeLabel;
+
     public Exercise135() {
         configureJFrame();
-        configureJPanelExercise1();
+        configureUI();
     }
 
     private void configureJFrame() {
@@ -19,77 +25,69 @@ public class Exercise135 extends JFrame {
         setLocationRelativeTo(null);
     }
 
-    private void configureJPanelExercise1() {
+    private void configureUI() {
         JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
+        resultArea = new JTextArea();
+        resultArea.setEditable(false);
+
+        mainPanel.add(createFormPanel(), BorderLayout.NORTH);
+        mainPanel.add(new JScrollPane(resultArea), BorderLayout.CENTER);
+        mainPanel.add(createMenuPanel(), BorderLayout.SOUTH);
+
+        add(mainPanel);
+    }
+
+    private JPanel createFormPanel() {
         JPanel formPanel = new JPanel(new GridLayout(5, 2, 5, 5));
 
-        JLabel loginLabel = new JLabel("Login:");
-        JTextField loginField = new JTextField();
+        loginField = new JTextField();
+        passwordField = new JPasswordField();
 
-        JLabel passwordLabel = new JLabel("Hasło:");
-        JPasswordField passwordField = new JPasswordField();
-
-        JLabel strengthLabel = new JLabel("Siła hasła:");
-        JProgressBar strengthBar = new JProgressBar(0, 4);
+        strengthBar = new JProgressBar(0, 4);
         strengthBar.setStringPainted(true);
         strengthBar.setString("Brak");
 
         JButton submitButton = new JButton("->");
-
-        JTextArea resultArea = new JTextArea();
-        resultArea.setEditable(false);
-
-        JLabel welcomeLabel = new JLabel("Witaj!", SwingConstants.CENTER);
+        welcomeLabel = new JLabel("Witaj!", SwingConstants.CENTER);
         JButton nameButton = new JButton("Podaj imię");
 
-        formPanel.add(loginLabel);
+        formPanel.add(new JLabel("Login:"));
         formPanel.add(loginField);
-
-        formPanel.add(passwordLabel);
+        formPanel.add(new JLabel("Hasło:"));
         formPanel.add(passwordField);
-
-        formPanel.add(strengthLabel);
+        formPanel.add(new JLabel("Siła hasła:"));
         formPanel.add(strengthBar);
-
         formPanel.add(new JLabel());
         formPanel.add(submitButton);
-
         formPanel.add(welcomeLabel);
         formPanel.add(nameButton);
 
         passwordField.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
-                updatePasswordStrength(passwordField, strengthBar);
+                updatePasswordStrength();
             }
 
             @Override
             public void removeUpdate(DocumentEvent e) {
-                updatePasswordStrength(passwordField, strengthBar);
+                updatePasswordStrength();
             }
 
             @Override
             public void changedUpdate(DocumentEvent e) {
-                updatePasswordStrength(passwordField, strengthBar);
+                updatePasswordStrength();
             }
         });
 
-        submitButton.addActionListener(e -> {
-            String login = loginField.getText();
-            String password = new String(passwordField.getPassword());
+        submitButton.addActionListener(e -> handleLogin());
+        nameButton.addActionListener(e -> askForName());
 
-            resultArea.append("Login: " + login + " Hasło: " + password + "\n");
-        });
+        return formPanel;
+    }
 
-        nameButton.addActionListener(e -> {
-            String name = JOptionPane.showInputDialog(this, "Jak masz na imię?", "Powitanie", JOptionPane.QUESTION_MESSAGE);
-            if (name != null && !name.isBlank()) {
-                welcomeLabel.setText("Witaj, " + name.trim() + "!");
-                JOptionPane.showMessageDialog(this, "Miło Cię widzieć " + name + "!\n");
-            }
-        });
-
+    private JPanel createMenuPanel() {
         JPanel menuPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 5));
 
         JButton task2Button = new JButton("Zadanie 2");
@@ -104,13 +102,24 @@ public class Exercise135 extends JFrame {
         menuPanel.add(task4Button);
         menuPanel.add(task6Button);
 
-        mainPanel.add(menuPanel, BorderLayout.SOUTH);
-        mainPanel.add(formPanel, BorderLayout.NORTH);
-        mainPanel.add(new JScrollPane(resultArea), BorderLayout.CENTER);
-        add(mainPanel);
+        return menuPanel;
     }
 
-    private void updatePasswordStrength(JPasswordField passwordField, JProgressBar strengthBar) {
+    private void handleLogin() {
+        String login = loginField.getText();
+        String password = new String(passwordField.getPassword());
+        resultArea.append("Login: " + login + " Hasło: " + password + "\n");
+    }
+
+    private void askForName() {
+        String name = JOptionPane.showInputDialog(this, "Jak masz na imię?", "Powitanie", JOptionPane.QUESTION_MESSAGE);
+        if (name != null && !name.isBlank()) {
+            welcomeLabel.setText("Witaj, " + name.trim() + "!");
+            JOptionPane.showMessageDialog(this, "Miło Cię widzieć " + name.trim() + "!");
+        }
+    }
+
+    private void updatePasswordStrength() {
         String pass = new String(passwordField.getPassword());
         int score = 0;
         if (pass.length() >= 8) score++;
@@ -118,18 +127,20 @@ public class Exercise135 extends JFrame {
         if (pass.matches(".*[0-9].*")) score++;
         if (pass.matches(".*[^a-zA-Z0-9].*")) score++;
 
-        strengthBar.setValue(score);
-
         if (pass.isEmpty()) {
-            strengthBar.setForeground(Color.RED);
+            strengthBar.setValue(0);
+            strengthBar.setBackground(Color.RED);
             strengthBar.setString("Brak");
         } else if (score <= 1) {
+            strengthBar.setValue(1);
             strengthBar.setForeground(Color.ORANGE);
             strengthBar.setString("Słabe");
         } else if (score <= 3) {
+            strengthBar.setValue(score);
             strengthBar.setForeground(Color.YELLOW);
             strengthBar.setString("Średnie");
         } else {
+            strengthBar.setValue(4);
             strengthBar.setForeground(Color.GREEN);
             strengthBar.setString("Silne");
         }
