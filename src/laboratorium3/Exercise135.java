@@ -120,24 +120,39 @@ public class Exercise135 extends JFrame {
     }
 
     private void updatePasswordStrength() {
-        String pass = new String(passwordField.getPassword());
-        int score = 0;
-        if (pass.length() >= 8) score++;
-        if (pass.matches(".*[A-Z].*")) score++;
-        if (pass.matches(".*[0-9].*")) score++;
-        if (pass.matches(".*[^a-zA-Z0-9].*")) score++;
+        char[] password = passwordField.getPassword();
+        int length = password.length;
 
-        if (pass.isEmpty()) {
+        boolean hasUpperCase = false;
+        boolean hasDigit = false;
+        boolean hasSpecial = false;
+
+        for(char c : password) {
+            if(Character.isUpperCase(c)) {
+                hasUpperCase = true;
+            } else if(Character.isDigit(c)) {
+                hasDigit = true;
+            } else if(!Character.isLetterOrDigit(c)) {
+                hasSpecial = true;
+            }
+        }
+
+        int score = 0;
+        if (length >= 8) score++;
+        if (hasUpperCase) score++;
+        if (hasDigit) score++;
+        if (hasSpecial) score++;
+
+        if (length == 0) {
             strengthBar.setValue(0);
-            strengthBar.setBackground(Color.RED);
             strengthBar.setString("Brak");
         } else if (score <= 1) {
             strengthBar.setValue(1);
-            strengthBar.setForeground(Color.ORANGE);
+            strengthBar.setForeground(Color.RED);
             strengthBar.setString("Słabe");
         } else if (score <= 3) {
             strengthBar.setValue(score);
-            strengthBar.setForeground(Color.YELLOW);
+            strengthBar.setForeground(Color.ORANGE);
             strengthBar.setString("Średnie");
         } else {
             strengthBar.setValue(4);
